@@ -24,3 +24,11 @@ If trained by AutoEncoder model, you have to make sure all of your training data
 ![Image_text](https://github.com/WWH98932/Audio-Anomaly-Detection/blob/master/image/normal.png) ![Image_text](https://github.com/WWH98932/Audio-Anomaly-Detection/blob/master/image/abnormal.png)
 
 #### Codes could be found in Conv_AE.py
+### 3. Anomaly Detection in GAN
+As another kind of generative model (besides AE), GAN is also used in anomaly detection. Here is how it works:
+Trainging stage: The network only learns the distribution of normal data, the model G can only reproduce/reconstruct normal data;
+Testing stage: Pass the data into the model G, if the output is similar/identical with the input after reproduce/reconstruction, the input data is classificied as normal class.
+The model G can be either GAN or AutoEncoder.
+#### anoGAN - a DCGAN based anomaly detector
+During training stage, a generator G is trained adversarially to reproduce the normal class from a random noise Z in latent space. In testing stage, randomly select a noise vector z from latent space, we can get the normal-like representation G(z) by feeding it into generator G, G is not trainable in this stage, all the parameters are fixed. But now the model still needs to be trained, we update the noise z iteratively, by comparing the output G(z) and testing data x to get a normal representation which is as similar as possible with x in ideal condition. So if the testing data x belongs to normal class, the output we get after iteration will be identical with x.
+
