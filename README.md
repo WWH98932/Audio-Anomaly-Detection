@@ -1,8 +1,15 @@
 # Audio-Anomaly-Detection
 Deep neural network based anomaly detection methods.
-For Audio data, we can use this to do three things: 1. detect anomalies; 2. data quality measurement; 3. denoise.
+For Audio data, we can use this to do three things: 1. detect anomalies; 2. measure data quality; 3. denoise.
+### 1. 1D Dense/Convolutional Autoencoder
+An autoencoder is a special type of neural network that copies the input values to the output values. If the number of neurons in the hidden layers is less than that of the input layers, the hidden layers will extract the essential information of the input values. This condition forces the hidden layers to learn the most patterns of the data and ignore the “noises”. That is the reason why autoencoders could be used to detect anomalies by just comparing the difference between the output and the input. The encoding process compresses the input values to get to the core layer. The decoding process reconstructs the information to produce the outcome. The decoding process mirrors the encoding process in the number of hidden layers and neurons. Most practitioners just adopt this symmetry.
 
-### 1. Convolutional Autoencoder (CAE)
+![Image_text](https://github.com/WWH98932/Audio-Anomaly-Detection/blob/master/image/ae_model_2.png)
+
+In this part, we use 1D array (the original audio sequence) as input, a simple dense ae (like MLP) and a 1d convolution ae is implemented.
+#### Codes could be found in 1d_AE.py
+
+### 2. 2D Convolutional Autoencoder (CAE)
 We can treat audio data in two ways: the original signal (1D) or the time-frequency domain signal (2D). If we convert audio signal into 2D spectrogram, it can be regarded as image to some extent. So why are the convolutional autoencoders suitable for image data? We see huge loss of information when slicing and stacking the data. Instead of stacking the data, the Convolution Autoencoders keep the spatial information of the input image data as they are, and extract information gently in what is called the Convolution layer. following figure demonstrates that a flat 2D image is extracted to a thick square (Conv1), then continues to become a long cubic (Conv2) and another longer cubic (Conv3). This process is designed to retain the spatial relationships in the data. This is the encoding process in an Autoencoder. In the middle, there is a fully connected autoencoder whose hidden layer is composed of only 10 neurons. After that comes with the decoding process that flattens the cubics, then to a 2D flat image. The encoder and the decoder are symmetric in following figure. Refer to: https://towardsdatascience.com/convolutional-autoencoders-for-image-noise-reduction-32fce9fc1763
 
 ![Image_text](https://github.com/WWH98932/Audio-Anomaly-Detection/blob/master/image/ae_cnn.png)
